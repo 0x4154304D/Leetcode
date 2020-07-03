@@ -10,7 +10,7 @@ class Solution {
         return res;
     }
 
-    public void helper(TreeNode root, List<Integer> res) {
+    private void helper(TreeNode root, List<Integer> res) {
         if (root != null) {
             res.add(root.val);
             helper(root.left, res);
