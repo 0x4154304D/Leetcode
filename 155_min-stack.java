@@ -35,8 +35,47 @@ class MinStack {
     }
 }
 
+
+ // 2
+ class MinStack {
+
+    private Stack<Integer> realStack;
+    private Stack<Integer> assistStack;
+    /** initialize your data structure here. */
+    public MinStack() {
+        realStack = new Stack<>();
+        assistStack = new Stack<>();
+    }
+    
+    public void push(int x) {
+        realStack.push(x);
+        if (assistStack.empty()) {
+            assistStack.push(x);
+        } else {
+            x = x < assistStack.peek() ? x : assistStack.peek();
+            assistStack.push(x);
+        }
+    }
+    
+    public void pop() {
+        realStack.pop();
+        assistStack.pop();
+    }
+    
+    public int top() {
+        return realStack.peek();
+    }
+    
+    public int getMin() {
+        return assistStack.peek();
+    }
+}
+
 /**
- * Your MinStack object will be instantiated and called as such: MinStack obj =
- * new MinStack(); obj.push(x); obj.pop(); int param_3 = obj.top(); int param_4
- * = obj.getMin();
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
  */
