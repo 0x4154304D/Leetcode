@@ -1,50 +1,43 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
     public void reorderList(ListNode head) {
-        if (head == null || head.next == null) return;
+        if (head == null || head.next == null)
+            return;
+        int len = 0;
         ListNode cur = head;
-        int size = 0;
-        while (cur != null){
-            ++size;
+        while (cur != null) {
+            ++len;
             cur = cur.next;
         }
-        int halfSize = (size + 1) / 2;
+        int helflen = (len + 1) >> 1;
         cur = head;
-        for (int i = 1; i < halfSize; ++i){
+        for (int i = 0; i < helflen; ++i) {
             cur = cur.next;
         }
-        ListNode stop = cur.next;
-        cur.next = null;
-        ListNode newHead = stop;
-        cur = stop.next;
-        newHead.next = null;
-        while(cur != null){
-            ListNode tmp = cur.next;
+        ListNode newHead = new ListNode(0);
+        while (cur != null) {
+            ListNode newNode = new ListNode(cur.val);
+            newNode.next = newHead.next;
+            newHead.next = newNode;
+            cur = cur.next;
+        }
+        newHead = newHead.next;
+        ListNode dummy = new ListNode(0);
+        cur = head;
+        int count = 1;
+        while (newHead != null) {
+            ListNode tmp = newHead.next;
+            newHead.next = cur.next;
             cur.next = newHead;
-            newHead = cur;
-            cur = tmp;
+            cur = cur.next;
+            ++count;
+            if (count == len) {
+                break;
+            } else {
+                cur = cur.next;
+                ++count;
+            }
+            newHead = tmp;
         }
-        ListNode revCur = newHead;
-        cur = head;
-        ListNode tmpA = null, tmpB = null;
-        while (cur != null || revCur != null){
-            tmpA = cur.next;
-            cur.next = revCur;
-            cur = tmpA;
-            if (revCur != null){
-                tmpB = revCur.next;
-                revCur.next = cur;
-                revCur = tmpB;
-            } 
-        }
+        cur.next = null;
     }
 }
