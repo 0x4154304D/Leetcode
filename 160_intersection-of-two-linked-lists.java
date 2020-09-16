@@ -1,58 +1,36 @@
-/**
- * Definition for singly-linked list. public class ListNode { int val; ListNode
- * next; ListNode(int x) { val = x; next = null; } }
- */
-
 // 1
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if (headA == null || headB == null)
-            return null;
-        if (headA == headB)
-            return headA;
+        int lenA = getSize(headA), lenB = getSize(headB);
         ListNode curA = headA, curB = headB;
-        int sizeA = 1, sizeB = 1;
-        boolean hasCommonNode = false;
-        while (curA.next != null || curB.next != null) {
-            if (curA.next != null) {
-                curA = curA.next;
-                ++sizeA;
-            }
-            if (curB.next != null) {
-                curB = curB.next;
-                ++sizeB;
-            }
-            if (curA == curB) {
-                hasCommonNode = true;
-            }
-        }
-        if (!hasCommonNode)
-            return null;
-        curA = headA;
-        curB = headB;
-        int index = 0;
-        if (sizeA > sizeB) {
-            index = sizeB;
-            for (int i = 0; i < sizeA - sizeB; ++i) {
+        if (lenA > lenB) {
+            for (int i = 0; i < (lenA - lenB); ++i) {
                 curA = curA.next;
             }
         } else {
-            index = sizeA;
-            for (int i = 0; i < sizeB - sizeA; ++i) {
+            for (int i = 0; i < (lenB - lenA); ++i) {
                 curB = curB.next;
             }
         }
-        for (int i = 0; i < index; ++i) {
-            if (curA == curB)
-                break;
+        while (curA != null && curB != null && curA != curB) {
             curA = curA.next;
             curB = curB.next;
         }
         return curA;
     }
+
+    private static int getSize(ListNode head) {
+        ListNode cur = head;
+        int size = 0;
+        while (cur != null) {
+            ++size;
+            cur = cur.next;
+        }
+        return size;
+    }
 }
 
-//2
+// 2
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         if (headA == null || headB == null)
